@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para MI NOVIECITA 🤍 | 7 Meses de Amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <style>
+        @keyframes rgbBorderFast {
+            0% { border-color: #4ade80; box-shadow: 0 0 35px rgba(74, 222, 128, 0.6); }
+            25% { border-color: #f472b6; box-shadow: 0 0 35px rgba(244, 114, 182, 0.6); }
+            50% { border-color: #c084fc; box-shadow: 0 0 35px rgba(192, 132, 252, 0.6); }
+            75% { border-color: #38bdf8; box-shadow: 0 0 35px rgba(56, 189, 248, 0.6); }
+            100% { border-color: #4ade80; box-shadow: 0 0 35px rgba(74, 222, 128, 0.6); }
+        }
+
+        @keyframes pastelGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffd1dc, #e0f2fe, #f3e8ff, #dcfce7);
+            background-size: 400% 400%;
+            animation: pastelGradient 12s ease infinite;
+            color: #222222;
+            font-family: 'Press Start 2P', cursive !important;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            overflow-x: hidden;
+            font-size: 11px;
+        }
+
+        #os-intro {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 240, 245, 0.96);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-system {
+            background: #fb6f92;
+            border: 3px solid white;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 16px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            box-shadow: 0 8px 0 #9b2d47;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-system:active { transform: translateY(4px); box-shadow: 0 4px 0 #9b2d47; }
+
+        .os-container {
+            width: 95%;
+            max-width: 980px;
+            background: rgba(255, 255, 255, 0.45);
+            border: 5px solid #f472b6;
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: rgbBorderFast 3s infinite linear, fadeInApp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInApp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .os-header {
+            padding: 15px 25px;
+            border-bottom: 2px solid rgba(255,255,255,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            font-size: 9px;
+        }
+
+        .os-dots { display: flex; gap: 8px; }
+        .header-heart { width: 30px; text-align: center; font-size: 18px; line-height: 1; filter: drop-shadow(0 0 5px rgba(236,72,153,.55)); animation: surpriseHeartbeat 1.4s ease-in-out infinite; }
+        .surprise-png-row { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px; margin:14px auto 8px; }
+        .surprise-png-row img { width:clamp(58px,13vw,92px); height:clamp(58px,13vw,92px); object-fit:contain; filter:drop-shadow(0 7px 9px rgba(219,39,119,.2)); animation:kirbyFloat 3.4s ease-in-out infinite; }
+        .surprise-png-row img:nth-child(even) { animation-delay:-1.4s; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #a4ffa6; }
+        .dot-yellow { background: #f5abff; }
+        .dot-green { background: #3c00e0; }
+
+        .os-nav {
+            display: flex;
+            gap: 5px;
+            padding: 15px 25px 0 25px;
+            border-bottom: 2px solid rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.2);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            color: #555;
+            padding: 10px 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #db2777;
+            border-top: 3px solid #db2777;
+        }
+
+        .os-body {
+            padding: 30px;
+            min-height: 520px;
+            max-height: 650px;
+            overflow-y: auto;
+        }
+
+        .tab-pane { display: none; animation: fadeInPane 0.4s ease; }
+        .tab-pane.active { display: block; }
+        @keyframes fadeInPane { from { opacity: 0; } to { opacity: 1; } }
+
+        .music-player-card {
+            background: rgba(255, 255, 255, 0.65);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f472b6, #c084fc);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .counter-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255,255,255,0.9);
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .counter-num { font-size: 11px; font-weight: bold; color: #db2777; margin-bottom: 6px; }
+        .counter-label { font-size: 7px; color: #555; text-transform: uppercase; }
+
+        .galeria-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .galeria-img:hover { transform: scale(1.04); }
+
+        /* LIGHTBOX: FOTO IZQ, TEXTO DERECHA DESPEGADO Y CON VAPOR PURO */
+        #lightbox-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 20, 0.85);
+            backdrop-filter: blur(0px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            transition: backdrop-filter 20.0s ease, opacity 5.0s ease;
+        }
+        #lightbox-modal.show { backdrop-filter: blur(15px); opacity: 1; }
+        
+        #lightbox-container-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px; /* Separación amplia para que no se vean pegados */
+            max-width: 1000px;
+            width: 100%;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.2s ease;
+        }
+        #lightbox-modal.show #lightbox-container-flex { transform: scale(1); opacity: 1; }
+
+        #lightbox-img {
+            max-width: 420px;
+            max-height: 60vh;
+            border-radius: 16px;
+            border: 4px solid white;
+            box-shadow: 0 0 50px rgba(244, 114, 182, 0.8);
+            object-fit: contain;
+        }
+
+        #lightbox-caption {
+            color: #fff;
+            font-size: 11px;
+            text-align: left;
+            line-height: 2.6; /* Mayor espacio entre líneas */
+            max-width: 380px;
+            text-shadow: 0 0 12px rgba(255, 105, 180, 0.9);
+            background: transparent;
+            border: none;
+            padding: 0;
+            /* Animación de vapor pura para el texto */
+            opacity: 0;
+            transform: translateX(25px);
+            transition: opacity 4.5s ease 0.4s, transform 1.5s ease 0.4s;
+        }
+        #lightbox-modal.show #lightbox-caption {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* JUEGO KIRBY */
+        #game-area {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, rgba(254, 242, 242, 0.95), rgba(240, 253, 244, 0.95));
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #f472b6;
+        }
+        .game-hud { display:flex; justify-content:space-between; gap:10px; margin:0 auto 8px; padding:8px 12px; max-width:520px; border-radius:12px; background:#fce7f3; color:#9d174d; font-size:9px; font-weight:700; }
+        .game-tip { margin:8px 0 0; color:#9d174d; font-size:8px; }
+        #game-area { touch-action:none; box-shadow:inset 0 0 22px rgba(244,114,182,.14), 0 5px 16px rgba(219,39,119,.10); }
+        #kirby-sprite { will-change:left,top,transform; filter:drop-shadow(0 3px 3px rgba(190,24,93,.22)); }
+        #melon-sprite { filter:drop-shadow(0 4px 5px rgba(190,24,93,.2)); animation:melonBob 1.4s ease-in-out infinite; }
+        .game-sparkle { position:absolute; pointer-events:none; color:#ec4899; opacity:.65; animation:gameTwinkle 2s ease-in-out infinite; }
+        .sparkle-one { top:12%; right:12%; font-size:22px; }
+        .sparkle-two { bottom:12%; left:12%; font-size:25px; animation-delay:-1s; }
+        @keyframes melonBob { 0%,100% { margin-top:0; } 50% { margin-top:-5px; } }
+        @keyframes gameTwinkle { 0%,100% { opacity:.25; transform:scale(.8) rotate(0); } 50% { opacity:.9; transform:scale(1.2) rotate(15deg); } }
+
+        #kirby-sprite {
+            position: absolute;
+            width: 44px; height: 44px;
+            left: 20px; top: 20px;
+            object-fit: contain;
+            transition: left 0.05s linear, top 0.05s linear, transform 0.12s ease;
+            transform: scaleX(1);
+            transform-origin: center;
+            z-index: 5;
+        }
+        #melon-sprite {
+            position: absolute;
+            width: 40px; height: 40px;
+            object-fit: contain;
+            z-index: 4;
+        }
+
+        /* CORAZÓN 3D */
+        #galaxy-container {
+            width: 100%;
+            height: 460px;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 3px solid white;
+            background: #000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        /* MARCA DE AGUA CARA FELIZ GIGANTE */
+        #giant-smiley {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-size: 250px;
+            color: rgba(255, 105, 180, 0.12);
+            z-index: -1;
+            pointer-events: none;
+            transition: transform 2.5s ease;
+        }
+        .party-mode #giant-smiley {
+            transform: translate(-50%, -50%) scale(1.4);
+            animation: pulseSmiley 0.6s infinite alternate;
+            color: rgba(255, 105, 180, 0.3);
+        }
+        @keyframes pulseSmiley {
+            from { transform: translate(-50%, -50%) scale(1.2) rotate(-8deg); }
+            to { transform: translate(-50%, -50%) scale(1.5) rotate(8deg); }
+        }
+
+        #sorpresa-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 20000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        /* MEJORA DE LA SORPRESA ROMÁNTICA */
+        #tab-sorpresa { position: relative; overflow: hidden; }
+        .surprise-card {
+            position: relative;
+            max-width: 650px;
+            margin: 10px auto;
+            padding: 30px 22px;
+            border: 2px solid rgba(255,255,255,.95);
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,228,242,.88), rgba(237,233,254,.9));
+            box-shadow: 0 18px 45px rgba(219,39,119,.16), inset 0 0 25px rgba(255,255,255,.8);
+            overflow: hidden;
+        }
+        .surprise-card::before, .surprise-card::after {
+            content: '✦'; position: absolute; color: #f472b6; opacity: .55; font-size: 28px;
+            animation: surpriseTwinkle 2.2s ease-in-out infinite alternate;
+        }
+        .surprise-card::before { top: 18px; left: 20px; }
+        .surprise-card::after { right: 22px; bottom: 18px; animation-delay: .8s; }
+        .surprise-heart {
+            font-size: 52px; display: inline-block; margin: 8px 0 20px;
+            filter: drop-shadow(0 8px 12px rgba(244,114,182,.35));
+            animation: surpriseHeartbeat 1.15s ease-in-out infinite;
+        }
+        .surprise-title { color: #db2777; font-size: 12px; line-height: 2; }
+        .surprise-copy { color: #6b4560; font-size: 8px; line-height: 2.5; max-width: 470px; margin: 0 auto 22px; }
+        .surprise-primary {
+            border: 0; border-radius: 999px; padding: 14px 20px; color: white;
+            background: linear-gradient(100deg, #fb7185, #ec4899, #a78bfa);
+            box-shadow: 0 7px 0 #b83270, 0 12px 25px rgba(236,72,153,.25);
+            font: 8px 'Press Start 2P', cursive; cursor: pointer; transition: transform .2s, filter .2s;
+        }
+        .surprise-primary:hover { transform: translateY(-3px) scale(1.03); filter: brightness(1.05); }
+        .surprise-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 #b83270; }
+        .surprise-secondary { font: 7px 'Press Start 2P', cursive; border-radius: 999px; padding: 12px 15px; }
+        #surprise-letter { display: none; margin: 24px auto 0; max-width: 490px; padding: 20px; border-radius: 16px; background: rgba(255,255,255,.8); border: 1px dashed #f472b6; color: #8b2459; font-size: 8px; line-height: 2.5; animation: surpriseReveal .7s ease both; }
+        #surprise-letter.visible { display: block; }
+        #sorpresa-modal {
+            background: radial-gradient(circle at center, rgba(90,25,75,.94), rgba(14,10,35,.98));
+            overflow-y: auto;
+        }
+        .epic-surprise-card {
+            position: relative; isolation: isolate; width: min(92vw, 720px); padding: 34px 24px; margin: auto;
+            border: 1px solid rgba(255,255,255,.72); border-radius: 28px;
+            background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(244,114,182,.13), rgba(139,92,246,.12));
+            box-shadow: 0 0 35px rgba(244,114,182,.25), 0 0 100px rgba(167,139,250,.15), inset 0 0 35px rgba(255,255,255,.05);
+            backdrop-filter: blur(16px); animation: surpriseReveal .8s cubic-bezier(.2,.8,.2,1) both;
+        }
+        .epic-surprise-card::before { content: ''; position: absolute; inset: 9px; border: 1px solid rgba(255,255,255,.18); border-radius: 21px; pointer-events: none; z-index: -1; }
+        .epic-sparkle { display: inline-block; animation: sparkleOrbit 4s ease-in-out infinite; filter: drop-shadow(0 0 12px #f9a8d4); }
+        .epic-kicker { color: #fbcfe8; font-size: 8px; letter-spacing: 2px; line-height: 2.2; }
+        .epic-title { color: white; font-size: clamp(13px, 3vw, 20px); line-height: 2; text-shadow: 0 0 22px rgba(244,114,182,.9); }
+        .epic-message { color: #ffe4f1; font-size: 8px; line-height: 2.6; max-width: 540px; margin: 16px auto 24px; }
+        .promise-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 0 auto 24px; }
+        .promise-chip { padding: 10px 12px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(255,255,255,.09); color: #fff1f8; font-size: 7px; line-height: 1.8; box-shadow: inset 0 0 15px rgba(255,255,255,.04); }
+        .epic-signature { color: #fbcfe8; font-size: 7px; letter-spacing: 1px; line-height: 2.4; margin: 20px 0 0; }
+        .floating-heart { position: fixed; bottom: -40px; pointer-events: none; z-index: 20001; animation: floatLove 4.8s ease-in forwards; }
+        @keyframes surpriseHeartbeat { 0%,100% { transform: scale(1); } 14% { transform: scale(1.13); } 28% { transform: scale(1); } 42% { transform: scale(1.09); } }
+        @keyframes sparkleOrbit { 0%,100% { transform: translateY(0) rotate(-8deg) scale(1); } 50% { transform: translateY(-7px) rotate(8deg) scale(1.12); } }
+        @keyframes surpriseTwinkle { from { transform: rotate(0) scale(.8); opacity: .3; } to { transform: rotate(35deg) scale(1.2); opacity: .9; } }
+        @keyframes surpriseReveal { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes floatLove { 0% { transform: translateY(0) rotate(0) scale(.7); opacity: 0; } 12% { opacity: .95; } 100% { transform: translateY(-115vh) rotate(25deg) scale(1.3); opacity: 0; } }
+        @media (max-width: 600px) { .surprise-card { padding: 25px 14px; } .surprise-title { font-size: 10px; } .surprise-copy { line-height: 2.2; } }
+
+
+        /* EDICIÓN CONSTELACIÓN: detalles adicionales exclusivos de la sorpresa */
+        #sorpresa-modal::before {
+            content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .7;
+            background-image: radial-gradient(2px 2px at 12% 18%, #fff 45%, transparent 55%),
+              radial-gradient(1px 1px at 72% 13%, #fbcfe8 45%, transparent 55%),
+              radial-gradient(2px 2px at 88% 72%, #fff 45%, transparent 55%),
+              radial-gradient(1px 1px at 30% 82%, #ddd6fe 45%, transparent 55%),
+              radial-gradient(1px 1px at 54% 44%, #fff 45%, transparent 55%);
+            background-size: 240px 220px, 310px 280px, 270px 240px, 350px 310px, 190px 180px;
+            animation: starDrift 18s linear infinite;
+        }
+        .epic-surprise-card {
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #f472b6 rgba(255,255,255,.12);
+            overscroll-behavior: contain;
+            scroll-behavior: smooth;
+        }
+        .epic-surprise-card::-webkit-scrollbar { width: 12px; }
+        .epic-surprise-card::-webkit-scrollbar-track { background: rgba(255,255,255,.12); border-radius: 20px; margin: 12px 0; }
+        .epic-surprise-card::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #fb7185, #c084fc); border: 2px solid rgba(255,255,255,.25); border-radius: 20px; }
+        .epic-surprise-card::-webkit-scrollbar-thumb:hover { background: #db2777; }
+        .epic-surprise-card::after {
+            content: ''; position: absolute; top: -60%; left: -45%; width: 55%; height: 220%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+            transform: rotate(22deg); animation: loveShimmer 6s ease-in-out infinite; pointer-events: none;
+        }
+        .surprise-orbit {
+            position: relative; width: 132px; height: 112px; margin: 0 auto 18px;
+            display: grid; place-items: center;
+        }
+        .surprise-orbit::before, .surprise-orbit::after {
+            content: ''; position: absolute; width: 105px; height: 55px; border: 1px solid rgba(251,207,232,.65);
+            border-radius: 50%; transform: rotate(35deg); animation: orbitGlow 5s linear infinite;
+        }
+        .surprise-orbit::after { transform: rotate(-35deg); border-color: rgba(196,181,253,.7); animation-direction: reverse; }
+        .surprise-core {
+            position: relative; z-index: 1; border: 0; background: transparent; cursor: pointer;
+            font-size: 49px; filter: drop-shadow(0 0 16px rgba(244,114,182,.85));
+            animation: surpriseHeartbeat 1.15s ease-in-out infinite; transition: transform .25s;
+        }
+        .surprise-core:hover { transform: scale(1.16); }
+        .surprise-core:focus-visible, .surprise-primary:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+        .secret-hint { color: #fbcfe8; font-size: 7px; line-height: 2.2; letter-spacing: 1px; margin: 0 auto 16px; }
+        #epic-letter-reveal { display: none; max-width: 550px; margin: 20px auto 0; padding: 22px 20px;
+            border-radius: 18px; border: 1px solid rgba(255,255,255,.42);
+            background: linear-gradient(145deg, rgba(255,255,255,.15), rgba(251,207,232,.09));
+            color: #fff7fb; font-size: 8px; line-height: 2.5; text-align: left;
+            box-shadow: inset 0 0 24px rgba(255,255,255,.04); }
+        #epic-letter-reveal.visible { display: block; animation: letterBloom .9s cubic-bezier(.2,.8,.2,1) both; }
+        .letter-heading { text-align: center; color: #fbcfe8; font-size: 9px; line-height: 2.2; margin-bottom: 12px; }
+        .epic-footer-note { color: rgba(255,255,255,.65); font-size: 6px; line-height: 2.2; margin-top: 16px; }
+        .love-progress { width: min(320px, 80%); height: 4px; margin: 22px auto 0; border-radius: 99px; background: rgba(255,255,255,.15); overflow: hidden; }
+        .love-progress span { display: block; height: 100%; width: 100%; transform-origin: left; background: linear-gradient(90deg,#f9a8d4,#c4b5fd,#fff); animation: progressGlow 3s ease-in-out infinite alternate; }
+        @keyframes starDrift { from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; } to { background-position: 0 500px, 0 -380px, 0 420px, 0 -500px, 0 300px; } }
+        @keyframes loveShimmer { 0%,25% { left: -65%; opacity: 0; } 45% { opacity: 1; } 70%,100% { left: 130%; opacity: 0; } }
+        @keyframes orbitGlow { to { transform: rotate(395deg); } }
+        @keyframes letterBloom { from { opacity: 0; transform: translateY(16px) scale(.97); filter: blur(5px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+        @keyframes progressGlow { from { opacity: .65; filter: brightness(.9); } to { opacity: 1; filter: brightness(1.35); } }
+        @media (prefers-reduced-motion: reduce) {
+            .epic-surprise-card::after, #sorpresa-modal::before, .surprise-orbit::before, .surprise-orbit::after,
+            .surprise-core, .love-progress span { animation: none !important; }
+        }
+
+
+        /* MODO DIOS: KIRBY + CONSTELACIÓN ROMÁNTICA */
+        #tab-sorpresa { isolation: isolate; }
+        .god-surprise-stage {
+            position: relative; isolation: isolate; max-width: 760px; margin: 0 auto;
+            padding: clamp(22px, 4vw, 42px) clamp(14px, 3vw, 30px);
+            border-radius: 30px; overflow: hidden;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.98), rgba(255,232,246,.96) 38%, rgba(239,232,255,.98) 100%);
+            border: 2px solid rgba(255,255,255,.95);
+            box-shadow: 0 25px 70px rgba(219,39,119,.22), inset 0 0 35px rgba(255,255,255,.9);
+        }
+        .god-surprise-stage::before {
+            content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .75;
+            background-image: radial-gradient(circle, #fff 1px, transparent 1.8px), radial-gradient(circle, #f9a8d4 1px, transparent 2px), radial-gradient(circle, #c4b5fd 1px, transparent 2px);
+            background-size: 43px 47px, 71px 83px, 97px 101px; background-position: 0 0, 20px 13px, 41px 32px;
+            animation: godStarDrift 24s linear infinite;
+        }
+        .god-badge { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 999px; background: #fff; color: #a21caf; border: 1px solid #fbcfe8; box-shadow: 0 6px 18px #f9a8d433; font-size: 7px; letter-spacing: 1px; line-height: 1.8; }
+        .god-title { margin: 18px auto 10px; max-width: 590px; color: #a21caf; font-size: clamp(12px, 2.2vw, 18px); line-height: 2.05; text-shadow: 0 2px 0 #fff, 0 0 24px #f9a8d477; }
+        .god-subtitle { color: #79506f; max-width: 500px; margin: 0 auto 8px; font-size: 8px; line-height: 2.5; }
+        .god-kirby-line { position: relative; min-height: 165px; margin: 6px auto 0; display: flex; justify-content: center; align-items: center; gap: clamp(0px, 2vw, 22px); }
+        .god-kirby { width: clamp(92px, 17vw, 145px); height: clamp(92px, 17vw, 145px); object-fit: contain; filter: drop-shadow(0 13px 13px rgba(219,39,119,.18)); animation: kirbyFloat 3.5s ease-in-out infinite; }
+        .god-kirby.side { width: clamp(58px, 10vw, 90px); height: clamp(58px, 10vw, 90px); animation-delay: -.9s; }
+        .god-kirby.side.flip { transform: scaleX(-1); animation-delay: -1.7s; }
+        .god-kirby-halo { position: absolute; width: 155px; height: 155px; border-radius: 50%; background: radial-gradient(circle, #fbcfe866, #e9d5ff33 55%, transparent 72%); z-index: -1; animation: haloPulse 3s ease-in-out infinite; }
+        .god-love-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 14px auto 22px; }
+        .god-stat { min-width: 105px; padding: 10px 12px; border-radius: 15px; color: #8b2466; background: rgba(255,255,255,.75); border: 1px solid #fbcfe8; font-size: 7px; line-height: 2; box-shadow: 0 7px 18px #db27770d; }
+        .god-stat strong { display: block; font-size: 12px; color: #db2777; }
+        .star-quest { max-width: 560px; margin: 0 auto 20px; padding: 17px; border-radius: 20px; background: rgba(255,255,255,.68); border: 1px solid #f5c6e0; }
+        .star-quest-title { color: #a21caf; font-size: 8px; line-height: 2.2; margin-bottom: 11px; }
+        .star-quest-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .quest-star { width: 48px; height: 48px; border-radius: 16px; border: 1px solid #f3b6d8; background: linear-gradient(145deg, #fff, #fce7f3); color: #c026d3; font-size: 23px; box-shadow: 0 5px 0 #edb6d7; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+        .quest-star:hover { transform: translateY(-4px) rotate(-8deg) scale(1.07); }
+        .quest-star.found { background: linear-gradient(145deg, #fef3c7, #fbcfe8); box-shadow: 0 0 18px #f9a8d4, inset 0 0 10px #fff; animation: foundStar .45s ease both; }
+        .quest-progress { height: 7px; background: #fce7f3; border-radius: 99px; overflow: hidden; margin-top: 13px; }
+        .quest-progress-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #fb7185, #c084fc, #facc15); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+        #quest-feedback { color: #925077; min-height: 24px; margin: 10px 0 0; font-size: 7px; line-height: 2.1; }
+        #quest-final { display: none; margin: 14px auto 0; padding: 13px; border-radius: 14px; background: linear-gradient(100deg,#fff1f2,#f5f3ff); color: #a21caf; border: 1px solid #f9a8d4; font-size: 7px; line-height: 2.3; animation: letterBloom .7s ease both; }
+        #quest-final.visible { display: block; }
+        .god-action-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 18px; }
+        .god-footnote { color: #b36a98; font-size: 6px; line-height: 2.2; margin-top: 22px; }
+        .epic-kirby-banner { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto 12px; }
+        .epic-kirby-banner img { width: clamp(58px, 10vw, 92px); height: clamp(58px, 10vw, 92px); object-fit: contain; filter: drop-shadow(0 0 18px rgba(249,168,212,.65)); animation: kirbyFloat 3s ease-in-out infinite; }
+        .epic-kirby-banner img:last-child { animation-delay: -1.3s; }
+        .epic-surprise-card { width: min(94vw, 800px); }
+        .epic-title { max-width: 670px; margin-left: auto; margin-right: auto; }
+        .epic-message { max-width: 630px; }
+        .epic-action-hint { color: #ddd6fe; font-size: 7px; line-height: 2.3; margin-top: 12px; }
+        @keyframes godStarDrift { from { background-position: 0 0, 20px 13px, 41px 32px; } to { background-position: 0 240px, 120px -170px, -100px 190px; } }
+        @keyframes kirbyFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+        @keyframes haloPulse { 0%,100% { transform: scale(.85); opacity: .55; } 50% { transform: scale(1.12); opacity: 1; } }
+        @keyframes foundStar { 0% { transform: scale(.65) rotate(-18deg); } 75% { transform: scale(1.18) rotate(7deg); } 100% { transform: scale(1); } }
+        @media (max-width: 560px) {
+            .god-kirby-line { min-height: 125px; }
+            .god-kirby.side { width: 52px; height: 52px; }
+            .god-stat { min-width: 90px; }
+            .god-surprise-stage { border-radius: 22px; }
+            .god-action-row .surprise-primary { width: 100%; max-width: 340px; line-height: 2; }
+            .epic-surprise-card { padding: 28px 15px; }
+        }
+        @media (prefers-reduced-motion: reduce) { .god-surprise-stage::before, .god-kirby, .god-kirby-halo, .epic-kirby-banner img { animation: none !important; } }
+
+        /* CARTA DE LOS 7 MESES */
+        .seven-month-letter{position:relative;max-width:760px;margin:12px auto;padding:clamp(22px,4vw,42px);overflow:hidden;text-align:left;color:#70445f;border:1px solid rgba(255,255,255,.95);border-radius:26px;background:radial-gradient(circle at 12% 8%,rgba(255,255,255,.95),transparent 28%),linear-gradient(145deg,#fffafd,#fff0f7 55%,#f5efff);box-shadow:0 18px 48px rgba(219,39,119,.14),inset 0 0 25px rgba(255,255,255,.8)}
+        .seven-month-letter:before{content:'♡';position:absolute;right:18px;top:5px;color:rgba(236,72,153,.10);font-size:150px;line-height:1;pointer-events:none}
+        .seven-month-kicker{position:relative;color:#c02678;text-align:center;font-size:7px;letter-spacing:2px;line-height:2.4}
+        .seven-month-title{position:relative;color:#be2878;text-align:center;font-size:clamp(12px,2.5vw,17px);line-height:2;margin:12px auto 20px}
+        .seven-month-body{position:relative;font-size:8px;line-height:2.65}
+        .seven-month-body p{margin:0 0 17px}
+        .seven-month-sign{position:relative;color:#c02678;text-align:right;font-size:8px;line-height:2.5;margin-top:22px}
+        .seven-month-ornament{position:relative;text-align:center;color:#ec4899;font-size:19px;letter-spacing:7px;margin:18px 0 4px}
+        @media(max-width:600px){.seven-month-letter{padding:22px 16px}.seven-month-body{font-size:7px;line-height:2.5}}
+
+
+
+        /* DESLIZADOR VISIBLE: permite bajar hasta el final de cada sección */
+        .os-container {
+            max-height: calc(100vh - 30px);
+            min-height: 0;
+        }
+        .os-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            max-height: calc(100vh - 190px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #ec4899 rgba(255,255,255,.55);
+            overscroll-behavior: contain;
+        }
+        .os-body::-webkit-scrollbar { width: 14px; }
+        .os-body::-webkit-scrollbar-track {
+            background: rgba(255,255,255,.6);
+            border-radius: 20px;
+            margin: 8px 0;
+        }
+        .os-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #fb7185, #c084fc);
+            border: 3px solid rgba(255,255,255,.75);
+            border-radius: 20px;
+        }
+        .os-body::-webkit-scrollbar-thumb:hover { background: #db2777; }
+        @media (max-width: 600px) {
+            .os-container { max-height: calc(100vh - 16px); }
+            .os-body { max-height: calc(100vh - 150px); padding: 18px 12px; }
+        }
+
+        /* ENTRADA SUAVE DE LA CARTA: aparece párrafo por párrafo */
+        .seven-month-letter .seven-month-kicker,
+        .seven-month-letter .seven-month-title,
+        .seven-month-letter .seven-month-ornament,
+        .seven-month-letter .seven-month-sign { opacity: 0; }
+        .seven-month-letter.letter-enter .seven-month-kicker {
+            animation: letterSoftIn .9s ease both;
+        }
+        .seven-month-letter.letter-enter .seven-month-title {
+            animation: letterSoftIn 1s ease .18s both;
+        }
+        .seven-month-letter .seven-month-body p { opacity: 0; transform: translateY(14px); }
+        .seven-month-letter.letter-enter .seven-month-body p {
+            animation: letterSoftIn 1s cubic-bezier(.2,.75,.25,1) both;
+        }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(1) { animation-delay: .35s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(2) { animation-delay: .62s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(3) { animation-delay: .89s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(4) { animation-delay: 1.16s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(5) { animation-delay: 1.43s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(6) { animation-delay: 1.70s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(7) { animation-delay: 1.97s; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(8) { animation-delay: 2.24s; }
+        .seven-month-letter.letter-enter .seven-month-ornament {
+            animation: letterSoftIn 1s ease 2.55s both;
+        }
+        .seven-month-letter.letter-enter .seven-month-sign {
+            animation: letterSoftIn 1s ease 2.72s both;
+        }
+        @keyframes letterSoftIn {
+            from { opacity: 0; transform: translateY(16px); filter: blur(3px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* GALAXIA ROMÁNTICA 3D */
+        #galaxy-container {
+            height: clamp(340px, 58vw, 510px);
+            border: 1px solid rgba(255,255,255,.75);
+            background: radial-gradient(ellipse at 50% 45%, #211039 0%, #100b27 48%, #050611 100%);
+            box-shadow: 0 18px 45px rgba(75, 25, 105, .28), inset 0 0 45px rgba(192,132,252,.12);
+        }
+        .galaxy-heading { color:#f5d0fe; font-size:clamp(10px,2vw,14px); line-height:2; text-shadow:0 0 18px #e879f9; margin:4px auto 8px; }
+        .galaxy-caption { color:#e9d5ff; font-size:7px; line-height:2.3; max-width:560px; margin:0 auto 15px; }
+        .galaxy-note { color:#fbcfe8; font-size:7px; line-height:2.2; margin:12px auto 0; text-shadow:0 0 12px #ec4899; }
+        @media (prefers-reduced-motion: reduce) {
+            .seven-month-letter.letter-enter * { animation-duration: .01ms !important; animation-delay: 0ms !important; }
+        }
+
+
+        /* EDICIÓN ESPECIAL: PAPEL ROMÁNTICO PARA LA CARTA */
+        .seven-month-letter {
+            max-width: 820px;
+            margin: 18px auto 26px;
+            padding: clamp(28px, 5vw, 58px) clamp(22px, 6vw, 68px) 30px;
+            overflow: hidden;
+            isolation: isolate;
+            color: #604457;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,.96);
+            border-radius: 8px 8px 24px 8px;
+            background:
+                radial-gradient(ellipse at 8% 4%, rgba(255,255,255,.98), transparent 30%),
+                radial-gradient(ellipse at 100% 100%, rgba(245,220,255,.52), transparent 34%),
+                repeating-linear-gradient(0deg, transparent 0, transparent 31px, rgba(218,170,196,.10) 32px),
+                linear-gradient(135deg,#fffefd 0%,#fff8fb 52%,#fff2f8 100%);
+            box-shadow: 0 24px 65px rgba(156,54,111,.17), 0 5px 14px rgba(156,54,111,.08), inset 0 0 0 7px rgba(255,255,255,.48);
+        }
+        .seven-month-letter:before {
+            content: '♡'; position:absolute; z-index:-1; right:12px; top:34px;
+            color:rgba(221,91,155,.075); font-family:Georgia,serif; font-size:clamp(150px,25vw,250px);
+            line-height:1; transform:rotate(12deg); pointer-events:none;
+        }
+        .seven-month-letter:after {
+            content:''; position:absolute; inset:12px; border:1px solid rgba(218,153,188,.23);
+            border-radius:4px 4px 17px 4px; pointer-events:none; z-index:-1;
+        }
+        .letter-paper-glow { position:absolute; width:220px; height:220px; left:-115px; bottom:-125px; border-radius:50%; background:rgba(251,207,232,.28); filter:blur(5px); pointer-events:none; }
+        .letter-topline { display:flex; justify-content:space-between; align-items:center; color:#c17a9e; font:600 9px/1.5 Georgia,serif; letter-spacing:2.2px; margin-bottom:25px; }
+        .letter-top-heart { font:30px/1 Georgia,serif; color:#e78ab5; }
+        .seven-month-kicker { color:#bd7197; text-align:center; font:600 10px/1.8 Georgia,serif; letter-spacing:3px; }
+        .letter-month-seal { width:76px; height:76px; margin:18px auto 13px; display:flex; align-items:center; justify-content:center; gap:5px; border-radius:50%; color:#fff; background:linear-gradient(145deg,#f4a8c9,#c98bd9); box-shadow:0 7px 20px rgba(203,120,169,.25), inset 0 0 0 3px rgba(255,255,255,.65), inset 0 0 0 5px rgba(255,255,255,.2); transform:rotate(-8deg); }
+        .letter-month-seal span { font:italic 38px/1 Georgia,serif; }
+        .letter-month-seal small { font:600 7px/1.35 Georgia,serif; letter-spacing:1px; }
+        .seven-month-title { color:#a94e7d; text-align:center; font:italic 600 clamp(25px,4vw,38px)/1.3 Georgia,'Times New Roman',serif; letter-spacing:-.7px; margin:8px auto 7px; }
+        .letter-subtitle { color:#b987a0; text-align:center; font:italic 14px/1.7 Georgia,serif; margin:0 auto 20px; }
+        .letter-divider { display:flex; align-items:center; justify-content:center; gap:11px; margin:0 auto 29px; max-width:270px; color:#d88db2; font:17px Georgia,serif; }
+        .letter-divider i { height:1px; flex:1; background:linear-gradient(90deg,transparent,#e8b7cf,transparent); }
+        .seven-month-body { color:#604b59; font:16px/2 Georgia,'Times New Roman',serif; letter-spacing:.05px; }
+        .seven-month-body p { margin:0 0 21px; text-wrap:pretty; }
+        .seven-month-body p:first-child:first-letter { float:left; color:#c36b99; font: bold 54px/.83 Georgia,serif; padding:7px 8px 0 0; }
+        .seven-month-body p:nth-child(3), .seven-month-body p:nth-child(6), .seven-month-body p:nth-child(10) { color:#74465f; }
+        .seven-month-ornament { margin:30px 0 12px; text-align:center; color:#d77ca7; font:22px/1.8 Georgia,serif; letter-spacing:2px; }
+        .letter-postscript { max-width:470px; margin:0 auto 24px; padding:13px 18px; text-align:center; color:#a66c89; border-top:1px solid #edcbdc; border-bottom:1px solid #edcbdc; font:italic 14px/1.8 Georgia,serif; }
+        .seven-month-sign { display:flex; flex-direction:column; align-items:flex-end; color:#9d557b; font:italic 15px/1.8 Georgia,serif; margin:22px 5px 25px; }
+        .seven-month-sign strong { font:bold italic 20px/1.6 'Brush Script MT','Segoe Script',cursive; color:#bd5f91; }
+        .seven-month-sign b { font:22px/1.5 Georgia,serif; }
+        .letter-bottomline { padding-top:13px; border-top:1px solid rgba(218,153,188,.3); text-align:center; color:#c18aa5; font:600 8px/1.8 Georgia,serif; letter-spacing:2px; }
+        .letter-bottomline span { color:#e28bb6; font-size:15px; margin-left:5px; }
+        .seven-month-letter .seven-month-kicker, .seven-month-letter .seven-month-title, .seven-month-letter .seven-month-ornament, .seven-month-letter .seven-month-sign, .seven-month-letter .letter-topline, .seven-month-letter .letter-month-seal, .seven-month-letter .letter-subtitle, .seven-month-letter .letter-divider, .seven-month-letter .letter-postscript, .seven-month-letter .letter-bottomline { opacity:0; }
+        .seven-month-letter .seven-month-body p { opacity:0; transform:translateY(13px); }
+        .seven-month-letter.letter-enter .seven-month-body p { animation:letterSoftIn 1.05s cubic-bezier(.2,.75,.25,1) both; }
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(1) {animation-delay:.45s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(2) {animation-delay:.72s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(3) {animation-delay:.99s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(4) {animation-delay:1.26s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(5) {animation-delay:1.53s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(6) {animation-delay:1.80s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(7) {animation-delay:2.07s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(8) {animation-delay:2.34s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(9) {animation-delay:2.61s}
+        .seven-month-letter.letter-enter .seven-month-body p:nth-child(10) {animation-delay:2.88s}
+        .seven-month-letter.letter-enter .letter-topline {animation:letterSoftIn .8s ease both}
+        .seven-month-letter.letter-enter .seven-month-kicker {animation:letterSoftIn .9s ease .12s both}
+        .seven-month-letter.letter-enter .letter-month-seal {animation:sealBloom 1.1s cubic-bezier(.2,.8,.2,1) .22s both}
+        .seven-month-letter.letter-enter .seven-month-title {animation:letterSoftIn 1s ease .32s both}
+        .seven-month-letter.letter-enter .letter-subtitle {animation:letterSoftIn 1s ease .4s both}
+        .seven-month-letter.letter-enter .letter-divider {animation:letterSoftIn 1s ease .48s both}
+        .seven-month-letter.letter-enter .seven-month-ornament {animation:letterSoftIn 1s ease 3.2s both}
+        .seven-month-letter.letter-enter .letter-postscript {animation:letterSoftIn 1s ease 3.35s both}
+        .seven-month-letter.letter-enter .seven-month-sign {animation:letterSoftIn 1s ease 3.5s both}
+        .seven-month-letter.letter-enter .letter-bottomline {animation:letterSoftIn 1s ease 3.65s both}
+        @keyframes sealBloom {0%{opacity:0;transform:rotate(-20deg) scale(.65)}70%{opacity:1;transform:rotate(-5deg) scale(1.08)}100%{opacity:1;transform:rotate(-8deg) scale(1)}}
+        @media(max-width:600px) {
+            .seven-month-letter {padding:25px 22px 23px; margin:10px 2px 20px; border-radius:7px 7px 18px 7px}
+            .seven-month-body {font-size:15px;line-height:1.9}
+            .seven-month-body p {margin-bottom:18px}
+            .letter-topline {font-size:7px;letter-spacing:1.5px;margin-bottom:19px}
+            .letter-month-seal {width:67px;height:67px}
+            .letter-subtitle {font-size:13px}
+            .seven-month-sign strong {font-size:18px}
+        }
+        @media(prefers-reduced-motion:reduce) {
+            .seven-month-letter.letter-enter *, .seven-month-letter .seven-month-body p {animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+        }
+
+
+        /* TOQUE FINAL: EDICIÓN DE LUJO PARA LA CARTA DE ARLETTE */
+        .seven-month-letter {
+            max-width: 860px;
+            padding: clamp(30px, 6vw, 66px) clamp(24px, 7vw, 76px) 34px;
+            border: 1px solid rgba(255,255,255,.98);
+            border-radius: 5px 5px 27px 5px;
+            background:
+                radial-gradient(ellipse at 50% -12%, rgba(255,255,255,.98), transparent 48%),
+                radial-gradient(circle at 4% 96%, rgba(239,190,218,.24), transparent 27%),
+                radial-gradient(circle at 96% 4%, rgba(231,203,246,.28), transparent 25%),
+                repeating-linear-gradient(0deg, transparent 0, transparent 34px, rgba(195,145,174,.075) 35px),
+                linear-gradient(135deg,#fffefd 0%,#fffafd 48%,#fff3f8 100%);
+            box-shadow: 0 30px 85px rgba(139,57,104,.19), 0 8px 22px rgba(139,57,104,.08), inset 0 0 0 1px rgba(255,255,255,.95), inset 0 0 38px rgba(255,255,255,.7);
+        }
+        .seven-month-letter:after {
+            inset: 14px;
+            border: 1px solid rgba(211,151,184,.28);
+            border-radius: 3px 3px 19px 3px;
+            box-shadow: inset 0 0 0 5px rgba(255,255,255,.22);
+        }
+        .seven-month-letter:before {
+            right: 4px; top: 80px;
+            color: rgba(221,91,155,.055);
+            font-size: clamp(180px,30vw,290px);
+            transform: rotate(14deg);
+        }
+        .letter-paper-glow {
+            width: 290px; height: 290px; left: auto; right: -190px; bottom: -205px;
+            background: rgba(226,174,215,.22); filter: blur(8px);
+        }
+        .letter-topline {
+            position: relative; padding-bottom: 13px; margin-bottom: 30px;
+            border-bottom: 1px solid rgba(216,165,192,.38);
+            color: #b77b9b; font-size: 9px; letter-spacing: 2.6px;
+        }
+        .letter-top-heart { font-size: 34px; text-shadow: 0 4px 12px rgba(215,124,167,.2); }
+        .seven-month-kicker { color: #b36c91; font-size: 10px; letter-spacing: 3.6px; }
+        .letter-month-seal {
+            width: 86px; height: 86px; margin: 21px auto 17px;
+            background: radial-gradient(circle at 32% 24%,#f9d9e9 0%,#e7a9ca 38%,#bd8acb 100%);
+            box-shadow: 0 10px 27px rgba(183,112,158,.28), inset 0 0 0 3px rgba(255,255,255,.78), inset 0 0 0 6px rgba(255,255,255,.19);
+        }
+        .letter-month-seal span { font-size: 42px; text-shadow: 0 2px 7px rgba(128,62,105,.18); }
+        .seven-month-title {
+            color: #98486f; font-size: clamp(29px,4.5vw,43px);
+            line-height: 1.25; letter-spacing: -.9px;
+            text-shadow: 0 2px 0 rgba(255,255,255,.9);
+        }
+        .letter-subtitle { color: #ad8197; font-size: 15px; margin-bottom: 25px; }
+        .letter-divider { max-width: 320px; margin-bottom: 35px; color: #d18aaf; }
+        .letter-divider i { background: linear-gradient(90deg,transparent,#dca9c5,transparent); }
+        .seven-month-body {
+            max-width: 690px; margin: 0 auto;
+            color: #594653; font: 17px/2.05 Georgia,'Times New Roman',serif;
+            letter-spacing: .08px; text-align: left;
+        }
+        .seven-month-body p { margin: 0 0 23px; }
+        .seven-month-body p:first-child:first-letter {
+            color: #b65f8b; font-size: 61px; padding: 8px 10px 0 0;
+            text-shadow: 1px 2px 0 rgba(255,255,255,.9);
+        }
+        .seven-month-body p:nth-child(5) {
+            margin: 30px 0; padding: 17px 21px 17px 24px;
+            border-left: 2px solid #d99abb;
+            border-radius: 0 13px 13px 0;
+            background: linear-gradient(100deg,rgba(250,230,241,.72),rgba(255,255,255,.36));
+            color: #74465f;
+            box-shadow: 0 7px 20px rgba(175,112,150,.055);
+        }
+        .seven-month-body p:nth-child(10) { color: #86516d; }
+        .seven-month-ornament { margin: 36px 0 13px; color: #cc79a3; font-size: 25px; text-shadow: 0 3px 12px rgba(218,139,180,.2); }
+        .letter-postscript {
+            max-width: 510px; padding: 16px 20px; margin-bottom: 28px;
+            border-top: 1px solid #e8bfd3; border-bottom: 1px solid #e8bfd3;
+            color: #9e6382; font-size: 15px;
+            background: linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+        }
+        .seven-month-sign { margin: 25px 5px 30px; color: #92516f; font-size: 16px; }
+        .seven-month-sign strong { color: #b34f85; font-size: 25px; text-shadow: 0 2px 10px rgba(210,129,172,.15); }
+        .seven-month-sign b { font-size: 25px; }
+        .letter-bottomline { padding-top: 17px; color: #b77b9b; letter-spacing: 2.5px; }
+        .letter-bottomline span { font-size: 17px; }
+        @media(max-width:600px) {
+            .seven-month-letter { padding: 25px 22px 25px; }
+            .seven-month-body { font-size: 15.5px; line-height: 1.95; }
+            .seven-month-body p { margin-bottom: 19px; }
+            .seven-month-body p:nth-child(5) { padding: 14px 15px 14px 17px; }
+            .letter-topline { letter-spacing: 1.5px; font-size: 8px; }
+            .seven-month-title { font-size: clamp(26px,7vw,35px); }
+        }
+
+    </style>
+</head>
+<body id="cuerpoPrincipal">
+
+    <audio id="mainAudio"></audio>
+    <div id="giant-smiley"><img src="https://giffiles.alphacoders.com/164/164047.gif" alt="krby"></div>
+
+    <!-- PANTALLA DE INICIO -->
+    <div id="os-intro">
+        <h2 class="mb-4" style="color: #db2777; font-size: 13px; line-height: 1.8;">PARA ARLETTCITA 🩷💚<br>7 MESES DE AMOR</h2>
+        <button class="btn-system" onclick="iniciarSistema()"> DALE START BB ✨</button>
+    </div>
+
+    <!-- MODAL LIGHTBOX: FOTO IZQ, TEXTO DERECHA DESPEGADO Y CON VAPOR PURO -->
+    <div id="lightbox-modal" onclick="cerrarLightbox()">
+        <div id="lightbox-container-flex" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Recuerdo en grande">
+            <div id="lightbox-caption"></div>
+        </div>
+        <div style="position: absolute; bottom: 30px; color: white; font-size: 7px; letter-spacing: 1px;">[ TOCA EN CUALQUIER LUGAR PARA CERRAR ]</div>
+    </div>
+
+    <!-- MODAL DE SORPRESA ÉPICA: CONSTELACIÓN DE AMOR -->
+    <div id="sorpresa-modal" onclick="cerrarSorpresa()">
+        <div class="epic-surprise-card" onclick="event.stopPropagation()">
+            <div class="epic-kirby-banner" aria-label="Kirby celebra contigo">
+                <img src="https://freepngimg.com/download/kirby/2-2-kirby-transparent.png" alt="Kirby rosa" onerror="this.style.display='none'">
+                <img src="https://freepngimg.com/download/kirby/2-2-kirby-transparent.png" alt="Otro Kirby rosa" onerror="this.style.display='none'">
+            </div>
+            <div class="epic-kicker">✦ GALAXIA · 02.04.2026 ✦</div>
+            <div class="surprise-orbit">
+                <button class="surprise-core" type="button" aria-label="Abrir la carta secreta" onclick="abrirCartaEpica()">💚</button>
+            </div>
+            <h1 class="epic-title"> ALGO ESPECIAL PARA TI BB</h1>
+            <p class="epic-message">Amor, de vdd que me hace muy feliz tenerte en mi vida. Me encanta todo lo que hemos vivido, desde nuestras salidas hasta las veces que nos quedamos jugando y haciendo tonterías jajaj. No sabes lo bonito que es para mí tener tantos recuerdos contigo. Quiero seguir haciendo muchísimas cosas a tu lado, seguir riéndonos, salir, jugar y guardar fotos de todo. Gracias por estos 7 meses tan bonitos, te amo demasiado y volvería a elegirte una y mil veces. 💗</p>
+            <div class="promise-row">
+                <span class="promise-chip">Espero de corazon tener mas partidas juntos bb</span>
+                <span class="promise-chip"> Seguir consintiéndote, tener muchas aventuras juntos mi vida.</span>
+                <span class="promise-chip">Pero lo importante es que siempre seas tu amor</span>
+            </div>
+            <p class="secret-hint">✧ TOCA EL CORAZÓN PARA DESCUBRIR TU CARTITA SECRETA AMOR JAJAJ OTRA CARTA ✧</p>
+            <p class="epic-action-hint">TE AMITO AMOR 💗💚</p>
+            <div id="epic-letter-reveal">
+                <div class="letter-heading">💌 UNA CARTITA PARA MI PERSONA FAVORITA 💚</div>
+                Amor no tienes idea de lo mucho que te amo. A veces quisiera poder abrazarte y explicarte todo lo que siento por ti, porque de vdd me haces demasiado feliz. Me encanta tenerte, me encanta compartir mis días contigo y me encanta que hasta las cosas más sencillas se vuelvan especiales cuando estoy a tu lado. Quiero seguir cuidándote, hacerte reír, escucharte cuando lo necesites y estar contigo tanto en los días bonitos como en los que no lo sean tanto. No soy perfecto y sé que todavía tengo muchas cosas que mejorar, pero quiero hacerlo, quiero que te sientas amada y que nunca tengas que dudar de lo importante que eres para mí. Gracias por cada florecita, cada salida, cada partida, cada foto, cada abrazo y cada momento. Si vieras lo feliz que me hace recordar todo lo nuestro, entenderías por qué guardo cada cosita con tanto cariño. Te amo muchísimo, mi bb hermosa. Y si me dieran a elegir otra vez, te volvería a elegir a ti, siempre a ti y x100pre a ti. 🤍
+                <div style="text-align:center; font-size:19px; letter-spacing:5px; margin-top:16px;">💚 💗 ✨ 💗 💚</div>
+            </div>
+            <div class="love-progress"><span></span></div>
+            <p class="epic-signature">te extramo amor ya te quiero ver.<br>♡ TÚ Y YO, Y MUCHOS RECUERDOS MÁS MI CORAZON ♡</p>
+            <p class="epic-footer-note">[ TOCA FUERA DE ESTA TARJETA O PULSA EL BOTÓN PARA VOLVER ]</p>
+            <button class="surprise-primary" style="margin-top:12px" onclick="cerrarSorpresa()">VOLVER A LA GALAXIA </button>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="os-container" id="mainApp">
+        <div class="os-header">
+            <div class="os-dots">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+            </div>
+            <span>💚FELICES 7 MESES AMORCITO🩷 </span>
+            <span class="header-heart" aria-label="Un corazón para Arlette">💗</span>
+        </div>
+
+        <div class="os-nav">
+            <button class="nav-tab active" onclick="cambiarTab(event, 'tab-inicio')">01. INICIO</button>
+            <button class="nav-tab" onclick="cambiarTab(event, 'tab-historia')">02. 7 MESES</button>
+            <button class="nav-tab" onclick="cambiarTab(event, 'tab-galeria')">03. FOTITOS</button>
+            <button class="nav-tab" onclick="cambiarTab(event, 'tab-juego')">04. JUEGO</button>
+            <button class="nav-tab" onclick="cambiarTab(event, 'tab-galaxia')">05. CORAZÓN 3D</button>
+            <button class="nav-tab" onclick="cambiarTab(event, 'tab-sorpresa')">06. NO SE Q SEA PERO SI</button>
+        </div>
+
+        <div class="os-body">
+            
+            <!-- TAB 1: INICIO & REPRODUCTOR -->
+            <div id="tab-inicio" class="tab-pane active">
+                <div class="music-player-card">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div id="trackName" style="font-size: 9px; font-weight: bold; color: #db2777;">CARGANDO PISTA...</div>
+                            <div id="timeInfo" style="font-size: 8px; color: #666; margin-top: 4px;">00:00 / 00:00</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span style="font-size: 7px; color: #666;">VOLUMEN</span>
+                            <input type="range" min="0" max="1" step="0.05" value="1" oninput="ajustarVolumen(this.value)" style="width: 70px; accent-color: #db2777;">
+                        </div>
+                    </div>
+
+                    <div class="progress-container" id="progressBarContainer" onclick="adelantarMusica(event)">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-light shadow-sm border-0 rounded-pill" onclick="cancionAnterior()" style="font-size: 8px;">⏮ ANTERIOR</button>
+                            <button class="btn btn-sm btn-light rounded-pill px-3 shadow-sm" onclick="togglePlay()" id="btnPlayPause" style="font-size: 8px;">⏸ PAUSA</button>
+                            <button class="btn btn-sm btn-light shadow-sm border-0 rounded-pill" onclick="siguienteCancion()" style="font-size: 8px;">SIGUIENTE ⏭</button>
+                        </div>
+                        <span style="font-size: 7px; color: #db2777;">KIRBYESTEREO ACTIVO</span>
+                    </div>
+                </div>
+
+                <h3 class="fw-bold mb-2 text-dark" style="font-size: 11px; line-height: 1.6;">HOLII, MI BB HERMOSA 💚💗</h3>
+                <p class="text-secondary mb-4" style="font-size: 8px; line-height: 2;">
+                    Hice todo esto para ti, amor. Quería regalarte un pedacito de todo lo que me haces sentir y guardar aquí muchos de nuestros momentitos. Espero que te guste mucho, lo hice con demasiado cariño. 💗
+                </p>
+
+                <div class="counter-grid">
+                    <div class="counter-card"><div class="counter-num" id="daysNum">0</div><div class="counter-label">Días</div></div>
+                    <div class="counter-card"><div class="counter-num" id="hoursNum">0</div><div class="counter-label">Horas</div></div>
+                    <div class="counter-card"><div class="counter-num" id="minsNum" style="font-size: 10px;">0</div><div class="counter-label">Minutos</div></div>
+                    <div class="counter-card"><div class="counter-num" id="secsNum" style="font-size: 10px;">0</div><div class="counter-label">Segundos</div></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: NUESTRA CARTA DE 7 MESES -->
+            <div id="tab-historia" class="tab-pane">
+                <section class="seven-month-letter">
+                    <div class="letter-paper-glow" aria-hidden="true"></div>
+                    <div class="letter-topline"><span>✧ UNA FECHA PARA GUARDAR ✧</span><span class="letter-top-heart">♡</span></div>
+                    <div class="seven-month-kicker">2 DE ABRIL · NUESTRO COMIENZO</div>
+                    <div class="letter-month-seal"><span>7</span><small>MESES<br>JUNTITOS</small></div>
+                    <h2 class="seven-month-title">Para mi niña bonita, Arlette</h2>
+                    <p class="letter-subtitle">Una cartita hecha con todo mi amor, para ti. 🤍</p>
+                    <div class="letter-divider"><span>✦</span><i></i><span>♡</span><i></i><span>✦</span></div>
+                    <div class="seven-month-body">
+                        <p>Amor, la verdad no sé ni por dónde empezar, porque son tantas las cosas que quisiera decirte que siento que ni escribiendo mil hojas me alcanzaría para explicarte todo lo que te amo. Pero quiero intentarlo, porque estos 7 meses contigo significan muchísimo para mí y no quería dejar pasar este día sin decirte lo importante que eres en mi vida.</p>
+                        <p>De vdd, todavía me pongo a pensar en cómo empezó todo y me da una felicidad enorme saber que aquella vez fue el inicio de algo tan bonito. Me encanta acordarme de ese día, de bajarme del carro para llevarte tus florecitas, de los nervios que tenía y de lo feliz que estaba. Tal vez para alguien más fue algo sencillo, pero para mí fue un momento que voy a guardar con muchísimo cariño, porque eras tú y porque desde ahí estaba comenzando nuestra historia.</p>
+                        <p>Me encanta estar contigo, amor. Me encanta salir contigo, hablar contigo, jugar contigo y hasta hacer nuestras tonterías jajaj. Amo cuando jugamos Fortnite, Minecraft o Roblox, cuando nos reímos por cualquier cosa y cuando terminamos haciendo recuerdos sin siquiera planearlo. También me encantan esos detalles que quizá parecen pequeños, como cuando me pichaste un café, cuando hiciste ese columpio tan bonito o cuando simplemente compartimos un ratito juntos. Son cosas que para mí valen muchísimo, porque vienen de ti.</p>
+                        <p>Y es que no solamente me gusta pasar tiempo contigo; me gusta la persona que eres. Me encantas tú, tu forma de ser, tus ocurrencias, tus detalles y hasta esas cositas que tal vez tú ni notas, pero que yo sí. Me encanta verte sonreír, tomarte fotos, guardar nuestros recuerdos y después volver a verlos para acordarme de lo bonito que fue ese día. A veces miro una foto nuestra y me quedo pensando en lo afortunado que soy de tenerte. De verdad, sales hermosísima en todas, aunque tú luego digas que no jajaj.</p>
+                        <p>Quiero que sepas que no espero que todo sea perfecto, amor. Sé que podemos tener días difíciles, que a veces puedo equivocarme o no saber cómo decir las cosas, pero nunca quiero que dudes de que me importas muchísimo. Quiero seguir aprendiendo a hacerte feliz, escucharte, entenderte, cuidarte y demostrarte con hechos todo lo que siento por ti. Si alguna vez me equivoco, quiero tener la humildad de reconocerlo y mejorar, porque tú y lo que tenemos me importan de verdad.</p>
+                        <p>Gracias por estos siete meses, por cada salida, cada abrazo, cada risa, cada partida, cada foto y cada momento que hemos compartido. Gracias por dejarme formar parte de tu vida y por darme tantos motivos para sonreír. Ojalá nos queden muchísimas películas por ver, lugares por conocer, cafés por compartir, construcciones por hacer en Minecraft, partidas por ganar y un montón de recuerdos que todavía ni imaginamos.</p>
+                        <p>Y aunque a veces estemos lejos, quiero que sepas que te llevo conmigo. Me pasa que puedo estar haciendo cualquier cosa y de repente me acuerdo de ti, veo algo y pienso que te gustaría, o recuerdo algún momento nuestro y sonrío como menso jajaj. Me encanta sentirte cerquita incluso cuando no estás a mi lado. Eres alguien a quien pienso con muchísimo cariño y a quien quiero seguir eligiendo.</p>
+                        <p>No sé cómo vaya a ser cada día que viene, pero sí sé algo: quiero vivirlo contigo. Quiero seguir conociéndote, seguir enamorándome de ti, seguir consintiéndote y seguir construyendo algo bonito los dos. No quiero que estas palabras se queden solamente en una carta; quiero que también puedas verlo en cómo te trato, en cómo te escucho y en todas las ganas que tengo de seguir estando para ti.</p>
+                        <p>Felices 7 meses, mi bb hermosa. Te amo muchísimo, más de lo que a veces sé explicar. Gracias por ser tú, por existir y por hacer que mi vida tenga tantos momentos bonitos. Si pudiera regresar a aquel comienzo, volvería a bajarme del carro con mis florecitas, volvería a ponerme nervioso y volvería a elegirte a ti, sin pensarlo dos veces.</p>
+                        <p>Te amo, amor. Y espero que esta sea solamente una de muchísimas cartas, muchísimos meses y muchísimos años que todavía nos esperan. 🤍</p>
+                    </div>
+                    <div class="seven-month-ornament">♡　✧　🌷　✧　♡</div>
+                    <div class="letter-postscript">P. D. Si pudiera volver a empezar nuestra historia, volvería a elegirte. Siempre. ♡</div>
+                    <div class="seven-month-sign"><span>Con todo mi amor,</span><strong>tu niño que te ama muchísimo.</strong><b>💗</b></div>
+                    <div class="letter-bottomline">HECHA PARA TI, CON AMOR INFINITO <span>♡</span></div>
+                </section>
+            </div>
+
+            <!-- TAB 3: GALERÍA CON VAPOR PURO Y TEXTO DESPEGADO -->
+            <div id="tab-galeria" class="tab-pane">
+                <h4 class="fw-bold mb-3" style="color: #0284c7; font-size: 10px;">GALERÍA DE MOMENTOS MUY LINDOS A TU LADO</h4>
+                <p class="text-secondary mb-4" style="font-size: 8px;">toca las fotitos amor, quiero que veas cada recuerdo bien bonito. 🤍</p>
+                <div class="row g-3">
+                    <div class="col-6 col-md-4"><img src="IMG_5722.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'te amo mucho, me encantas, me encanta esta foto ')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5723.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'me encanto ir al mar y poner nuestros nombres de vdd senti muy bonito')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="z.png" class="galeria-img" onclick="abrirLightbox(this.src, 'esa vez jugando roblos fue muy lindo, de vdd amo jugar contigo')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5729.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'esa vez me tarde muchisimo haciendo ese dibujo, pero cada momento lo ame por que sabia que te iba a encantar')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5717.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'ese dia empezo todo, toda nuestra gran historia estaba por comenzar amor, ame bajarme del carro y llevarte unas florecitas')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5708.png" class="galeria-img" onclick="abrirLightbox(this.src, 'al igual que las flores, esa vez me encanto construirte eso, se mira muy bonito y lo hice con mucho amor')" alt="Recuerdo"></div>
+
+                    <div class="col-6 col-md-4"><img src="fb21c804-ae96-4c3a-a4bb-4d35125e9b7b.png" class="galeria-img" onclick="abrirLightbox(this.src, 'me encanto recrear la foto de los simpson en fornite, simplemente disfruto mucho jugar contigo')" alt="Recuerdo"></div>
+                    
+                    <div class="col-6 col-md-4"><img src="IMG_5715.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'esa foto fue despues de que te pidiera que fueras mi novia, algo humilde pero sinceramente fue lindo, estaba nervioso y a la vez feliz')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5726.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'esa vez me senti super bien por que me pichaste un cafe y de vdd fui muy feli, ese dia estuvo muy padre')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5727.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'me encanta esa foto, lastima que creo que a ti casi no te gusta, sales muy bella y me encantas mucho')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5728.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'me encanta esa foto, sales hermosisima y me encanta tener fotos en el espejo contigo, de vdd eres muy perfecta')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5725.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'espero nunca dejar de tener salidas como esa contigo amor, ese dia estuvo increible por que vimos la pelicula de spiderman y nos tomamos fotos')" alt="Recuerdo"></div>
+
+                    <div class="col-6 col-md-4"><img src="IMG_5707.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'me encanta esa foto y ese columpio que hiciste amor, de vdd me encanta cuando haces cosas lindas para mi')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5720.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'la vez que fuimos a por las elytras fue increible, me encanto y algo que me encanto es que jamas lo habia hecho en survival')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5721.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'esa fue una de las pocas victorias que tenemos, jugamos muy bien jajaj te amo')" alt="Recuerdo"></div>
+                    <div class="col-6 col-md-4"><img src="IMG_5715.jpg" class="galeria-img" onclick="abrirLightbox(this.src, 'te amo amor, felices 7 meses amor, siempre te siento en cualquier lugar que estemos, estemos cercas o lejos siempre te siento cerca y por eso te amo')" alt="Recuerdo"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: JUEGO -->
+            <div id="tab-juego" class="tab-pane text-center">
+                <h4 class="fw-bold mb-2" style="color: #db2777; font-size: 9px;">ATRAPA A MELÓN CON KIRBY🩷🐰</h4>
+                <p class="text-secondary mb-3" style="font-size: 7px;">ayudale a Kirby a atrapar a Melón jajaj, cada que lo alcances te va a salir un mensajito mio, teamito pequitas. 💗</p>
+                
+                <div class="game-hud">
+                    <span>⭐ PUNTOS: <strong id="game-score">0</strong></span>
+                    <span>💗 Atrapa a Melón</span>
+                </div>
+                <div id="game-area" aria-label="Juego: mueve a Kirby para atrapar a Melón">
+                    <img src="https://media.tenor.com/f5mFRebd1WwAAAAj/kirby-running.gif" id="kirby-sprite" alt="Kirby">
+                    <img src="../3/conejo.png" id="melon-sprite" alt="Melón">
+                    <span class="game-sparkle sparkle-one">✦</span>
+                    <span class="game-sparkle sparkle-two">♡</span>
+                </div>
+                <p class="game-tip">muevelo con las flechitas o con los botoncitos amor, a ver cuantos atrapas jajaj. ✨</p>
+
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    <button class="btn btn-sm btn-light shadow-sm px-3 fw-bold" onclick="moverKirby(0, -15)" style="font-size: 8px;">⬆️ ARRIBA</button>
+                    <button class="btn btn-sm btn-light shadow-sm px-3 fw-bold" onclick="moverKirby(0, 15)" style="font-size: 8px;">⬇️ ABAJO</button>
+                    <button class="btn btn-sm btn-light shadow-sm px-3 fw-bold" onclick="moverKirby(-15, 0)" style="font-size: 8px;">⬅️ IZQ</button>
+                    <button class="btn btn-sm btn-light shadow-sm px-3 fw-bold" onclick="moverKirby(15, 0)" style="font-size: 8px;">➡️ DER</button>
+                </div>
+                <div id="winMsg" class="mt-2 text-success fw-bold" style="font-size: 8px; line-height: 1.8; display: none;">
+                    JAJAJA LO ATRAPASTE, MUY BIEN AMOR 💗
+                </div>
+            </div>
+
+            <!-- TAB 5: CORAZÓN 3D -->
+            <div id="tab-galaxia" class="tab-pane text-center">
+                <div class="galaxy-heading">✦ NUESTRO PEQUEÑO UNIVERSO ✦</div>
+                <p class="galaxy-caption">Entre millones de estrellas, mi lugar favorito siempre va a ser a tu lado, Arlette. Este corazoncito es por nuestros 7 meses y por todos los que nos faltan. 💗</p>
+                <div id="galaxy-container" aria-label="Corazón tridimensional formado por estrellas"></div>
+                <p class="galaxy-note">♡ TÚ ERES MI ESTRELLA FAVORITA, MI BB ♡<br>02.04.2026 · 7 MESES Y CONTANDO</p>
+            </div>
+
+            <!-- TAB 6: SORPRESA ÉPICA MEJORADA -->
+            <div id="tab-sorpresa" class="tab-pane text-center py-4">
+                <section class="god-surprise-stage">
+                    <div class="god-badge">✦ Hice esto que no se que sea amor espero te guste xdxdxdxdxdxdxd✦</div>
+                    <div class="god-kirby-line" aria-label="Kirby celebrando nuestro amor">
+                        <div class="god-kirby-halo"></div>
+                        <img class="god-kirby side flip" src="https://freepngimg.com/download/kirby/2-2-kirby-transparent.png" alt="Kirby rosa saludando" loading="lazy" onerror="this.style.display='none'">
+                        <img class="god-kirby" src="https://freepngimg.com/download/kirby/2-2-kirby-transparent.png" alt="Kirby rosa con un corazón para Arlette" loading="lazy" onerror="this.style.display='none'">
+                        <img class="god-kirby side" src="https://freepngimg.com/download/kirby/2-2-kirby-transparent.png" alt="Kirby acompañando la sorpresa" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <h2 class="god-title">AMOR, ERES DE LAS COSAS MÁS BONITAS QUE ME HAN PASADO💚🩷✨</h2>
+                    <p class="god-subtitle">Espero que te guste mucho todo esto amor porque cada detallito lo hice pensando en ti, espero de corazon que todo todo lo que hayas visto haya sido de tu agrado pequitas💚. 💗</p>
+                    <div class="surprise-png-row" aria-label="Imágenes especiales">
+                        <img src="https://www.pngkey.com/png/full/736-7367172_view-fullsize-uraraka-ochako-image.png" alt="Recuerdo especial" loading="lazy" onerror="this.style.display='none'">
+                        <img src="https://gifdb.com/images/thumbnail/kirby-sticker-29c353j8lij5ut4e.gif" alt="Kirby" loading="lazy" onerror="this.style.display='none'">
+                        <img src="conejo.png" alt="Conejito" loading="lazy" onerror="this.style.display='none'">
+                        <img src="https://i.pinimg.com/originals/2a/05/82/2a05825a3475937e1a5395d4309f2636.gif" alt="Minecraft" loading="lazy" onerror="this.style.display='none'">
+                        <img src="  https://cdn.sweezy-cursors.com/cursor_packs/4ec64e1b-7b53-45cd-91b7-f77ba3efc25c/demon-slayer-muichiro-destroyer-of-demons-animated--poster--baaa74.gif  " alt="Amor" loading="lazy" onerror="this.style.display='none'">
+                        <img src="  https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d7342616-47df-4f4a-a9ff-adc5532cb145/ddo4cx5-1a7dde25-fa11-4e54-a7e2-972772b3ca4d.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9kNzM0MjYxNi00N2RmLTRmNGEtYTlmZi1hZGM1NTMyY2IxNDUvZGRvNGN4NS0xYTdkZGUyNS1mYTExLTRlNTQtYTdlMi05NzI3NzJiM2NhNGQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.kXsEkTy7IbwDu1DuObVxi8ipAAf2lEXXUkL6S2RvMmw " alt="Con ejito" loading="lazy" onerror="this.style.display='none'">
+                        <img src="   s.png   " alt="Kirby" loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <div class="god-love-stats">
+                        <div class="god-stat"><strong>♡ ∞ ♡</strong>AMOR SIN FINAL</div>
+                        <div class="god-stat"><strong>07 ✦</strong>MESES DE HISTORIA</div>
+                        <div class="god-stat"><strong>1 / 1</strong>MI PERSONA FAVORITA</div>
+                    </div>
+                    <div class="star-quest">
+                        <div class="star-quest-title">🌟 Dale click a las estrellitas amorcito 🌟<br><span style="color:#9d6b91;font-size:6px">toca cada una y mira lo que tengo para decirte</span></div>
+                        <div class="star-quest-buttons">
+                            <button class="quest-star" type="button" aria-label="Descubrir primera promesa" onclick="encontrarEstrella(0)">✦</button>
+                            <button class="quest-star" type="button" aria-label="Descubrir segunda promesa" onclick="encontrarEstrella(1)">✧</button>
+                            <button class="quest-star" type="button" aria-label="Descubrir tercera promesa" onclick="encontrarEstrella(2)">✦</button>
+                        </div>
+                        <div class="quest-progress" aria-label="Progreso de la misión"><div class="quest-progress-fill" id="quest-progress-fill"></div></div>
+                        <p id="quest-feedback" aria-live="polite">te faltan las 3 estrellitas amor jajaj 💗</p>
+                        <div id="quest-final">🌌 LISTO AMOR 🌌<br>Mi promesa es seguir eligiéndote, reconocer mis errores, disculparme y mejorar para ser una mejor pareja, escucharte con el corazón y construir contigo recuerdos que nos hagan sonreír incluso cuando pasen muchos años. 💚</div>
+                    </div>
+                    <h3 class="surprise-title">ME AMARAS POR TODA LA ETERNIDAD AMORCITO? 🤍</h3>
+                    <p class="surprise-copy">Yo solamente quiero seguir compartiendo mi vida contigo, amor. Me encanta todo lo que hacemos juntos, hasta lo más sencillo. Gracias por hacerme tan feliz estos 7 meses, de vdd espero que sean muchísimos más. 💗</p>
+                    <div class="god-action-row">
+                        <button class="surprise-primary" onclick="lanzarSorpresaTotal()">CLICK AQUI CORAZON👻🩷</button>
+                        <button class="btn btn-outline-danger surprise-secondary" id="btnNoHuye" onmouseover="huirBoton()" onclick="huirBoton()">NO 👻</button>
+                    </div>
+                    <div id="surprise-letter">💌 <strong>MENSAJE DESBLOQUEADO</strong><br>Amor, eres una parte preciosa de mi vida. Quiero seguir compartiendo contigo mis juegos, mis tonterías, mis días y mis sueños. Prometo esforzarme por amarte bonito, escucharte y celebrar cada pequeña cosa que te haga feliz. Si pudiera volver al principio, volvería a elegir conocerte. Una y mil veces. Te amo muchísimo. 💚🩷</div>
+                    <div class="god-footnote">✧ CADA RECUERDITO CONTIGO LO GUARDO CON MUCHO CARIÑO ✧<br>♡ ARLETTE + ELI · CONTINUARÁ… ♡<br><span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0">PNG de Kirby: FreePNGimg</span></div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("mainAudio");
+        // Cuatro canciones, sin mostrar rutas ni nombres de carpetas.
+        const playlist = [
+            { src: '../1/Poisson-Tree.mp3', name: 'Poisson Tree' },
+            { src: '../3/Dreaming-Of-You.mp3', name: 'Dreaming Of You' },
+            { src: '../4/mine.mp3', name: 'Mine' },
+            { src: '../2/Music/music1.mp3', name: 'Nuestra canción' },
+            { src: 'your life, flashing before your eyes.mp3', name: 'your life, flashing before your eyes' },
+            { src: 'Wander.mp3', name: 'Wander-Minecraft' },
+            { src: 'Dawn.mp3', name: 'Dawn-Minecraft' }
+        ];
+        let currentTrack = 0;
+
+        function cargarCancion(idx) {
+            audio.src = playlist[idx].src;
+            document.getElementById("trackName").innerText = "REPRODUCIENDO: " + playlist[idx].name;
+            audio.load();
+        }
+        cargarCancion(0);
+
+        function togglePlay() {
+            const btn = document.getElementById("btnPlayPause");
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Play error:", e));
+                btn.innerText = "⏸ PAUSA";
+            } else {
+                audio.pause();
+                btn.innerText = "▶ REPRODUCIR";
+            }
+        }
+
+        function siguienteCancion() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            cargarCancion(currentTrack);
+            audio.play().catch(e => console.log("Play error:", e));
+            document.getElementById("btnPlayPause").innerText = "⏸ PAUSA";
+        }
+
+        function cancionAnterior() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            cargarCancion(currentTrack);
+            audio.play().catch(e => console.log("Play error:", e));
+            document.getElementById("btnPlayPause").innerText = "⏸ PAUSA";
+        }
+
+        audio.addEventListener("ended", siguienteCancion);
+        function ajustarVolumen(val) { audio.volume = val; }
+
+        audio.addEventListener("timeupdate", () => {
+            if (audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                document.getElementById("progressBarFill").style.width = pct + "%";
+                let mCur = Math.floor(audio.currentTime / 60), sCur = Math.floor(audio.currentTime % 60);
+                if (sCur < 10) sCur = "0" + sCur;
+                let mDur = Math.floor(audio.duration / 60), sDur = Math.floor(audio.duration % 60);
+                if (sDur < 10) sDur = "0" + sDur;
+                document.getElementById("timeInfo").innerText = `0${mCur}:${sCur} / 0${mDur}:${sDur}`;
+            }
+        });
+
+        function adelantarMusica(event) {
+            const rect = document.getElementById("progressBarContainer").getBoundingClientRect();
+            if (audio.duration) {
+                audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration;
+            }
+        }
+
+        function iniciarSistema() {
+            document.getElementById("os-intro").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("os-intro").style.display = "none";
+                document.getElementById("mainApp").style.display = "flex";
+                audio.play().catch(e => console.log("Autoplay bloqueado"));
+                confetti({ particleCount: 150, spread: 90, colors: ['#f472b6', '#c084fc', '#38bdf8'] });
+            }, 800);
+        }
+
+        function cambiarTab(event, tabId) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            const carta = document.querySelector('.seven-month-letter');
+            if (tabId === 'tab-historia' && carta) {
+                carta.classList.remove('letter-enter');
+                void carta.offsetWidth;
+                carta.classList.add('letter-enter');
+            }
+
+            if (tabId === 'tab-galaxia') {
+                if (!renderer3D) initCorazon3D();
+                ajustarTamanoGalaxia();
+                iniciarAnimacionGalaxia();
+            } else {
+                detenerAnimacionGalaxia();
+            }
+        }
+
+        // === LIGHTBOX CON VAPOR PURO (FOTO IZQ, TEXTO DER DESPEGADO) ===
+        function abrirLightbox(src, texto) {
+            const modal = document.getElementById("lightbox-modal");
+            const img = document.getElementById("lightbox-img");
+            const caption = document.getElementById("lightbox-caption");
+            
+            img.src = src;
+            caption.innerText = texto;
+            modal.style.display = "flex";
+            
+            setTimeout(() => modal.classList.add("show"), 20);
+        }
+
+        function cerrarLightbox() {
+            const modal = document.getElementById("lightbox-modal");
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = "none";
+                document.getElementById("lightbox-caption").innerText = "";
+            }, 1200);
+        }
+
+        // === CONTADOR ===
+        const startTimestamp = new Date("Feb 12, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const diff = new Date().getTime() - startTimestamp;
+            document.getElementById("daysNum").innerText = Math.floor(diff / 86400000);
+            document.getElementById("hoursNum").innerText = Math.floor((diff % 86400000) / 3600000);
+            document.getElementById("minsNum").innerText = Math.floor((diff % 3600000) / 60000);
+            document.getElementById("secsNum").innerText = Math.floor((diff % 60000) / 1000);
+        }, 1000);
+
+        // === JUEGO KIRBY ===
+        let kX = 20, kY = 20;
+        let mX = 220, mY = 160;
+        let gameScore = 0;
+        const melonEl = document.getElementById("melon-sprite");
+        const kirbyEl = document.getElementById("kirby-sprite");
+        const gameArea = document.getElementById("game-area");
+        const gameScoreEl = document.getElementById("game-score");
+
+        const mensajesKirby = [
+            "JAJAJ  atrapaste a Melón, muy bien amor 💗💚",
+            "te amo amorcito vuelvelo a atrapar 3 veces mas jajaj",
+            "te amo muchisimo mi bb, gracias por tantos momentos bonitos 💚🩷",
+            "extraño a melon original amor:(",
+            "eres mi jugadora favorita y mi bb favorita de todo el mundo amorcito 💚"
+        ];
+        let indiceMensaje = 0;
+
+        function colocarMelon() {
+            const maxX = Math.max(0, gameArea.clientWidth - melonEl.offsetWidth);
+            const maxY = Math.max(0, gameArea.clientHeight - melonEl.offsetHeight);
+            let nx, ny, intentos = 0;
+            do {
+                nx = Math.random() * maxX;
+                ny = Math.random() * maxY;
+                intentos++;
+            } while (intentos < 20 && Math.hypot(nx - kX, ny - kY) < 95);
+            mX = nx; mY = ny;
+            melonEl.style.left = mX + "px";
+            melonEl.style.top = mY + "px";
+        }
+
+        function comprobarCaptura() {
+            const centroKX = kX + kirbyEl.offsetWidth / 2;
+            const centroKY = kY + kirbyEl.offsetHeight / 2;
+            const centroMX = mX + melonEl.offsetWidth / 2;
+            const centroMY = mY + melonEl.offsetHeight / 2;
+            const distancia = Math.hypot(centroKX - centroMX, centroKY - centroMY);
+            if (distancia < (kirbyEl.offsetWidth + melonEl.offsetWidth) * .43) {
+                gameScore++;
+                gameScoreEl.textContent = gameScore;
+                const msgBox = document.getElementById("winMsg");
+                msgBox.style.display = "block";
+                msgBox.innerText = mensajesKirby[indiceMensaje];
+                indiceMensaje = (indiceMensaje + 1) % mensajesKirby.length;
+                confetti({ particleCount: 55, spread: 65, origin: { y: .72 } });
+                colocarMelon();
+            }
+        }
+
+        function moverKirby(dx, dy) {
+            const maxX = Math.max(0, gameArea.clientWidth - kirbyEl.offsetWidth);
+            const maxY = Math.max(0, gameArea.clientHeight - kirbyEl.offsetHeight);
+            const paso = Math.max(12, Math.min(20, gameArea.clientWidth / 22));
+            kX = Math.max(0, Math.min(maxX, kX + Math.sign(dx) * (dx ? paso : 0)));
+            kY = Math.max(0, Math.min(maxY, kY + Math.sign(dy) * (dy ? paso : 0)));
+            if (dx < 0) kirbyEl.style.transform = "scaleX(-1)";
+            else if (dx > 0) kirbyEl.style.transform = "scaleX(1)";
+            kirbyEl.style.left = kX + "px";
+            kirbyEl.style.top = kY + "px";
+            comprobarCaptura();
+        }
+
+        function reiniciarPosicionesJuego() {
+            kX = Math.min(kX, Math.max(0, gameArea.clientWidth - kirbyEl.offsetWidth));
+            kY = Math.min(kY, Math.max(0, gameArea.clientHeight - kirbyEl.offsetHeight));
+            kirbyEl.style.left = kX + "px";
+            kirbyEl.style.top = kY + "px";
+            colocarMelon();
+        }
+        window.addEventListener("resize", reiniciarPosicionesJuego);
+        requestAnimationFrame(() => {
+            kirbyEl.style.left = kX + "px";
+            kirbyEl.style.top = kY + "px";
+            colocarMelon();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            const key = e.key.toLowerCase();
+            const keys = ["arrowright", "arrowleft", "arrowdown", "arrowup", "w", "a", "s", "d"];
+            if (!keys.includes(key)) return;
+            if (document.activeElement && ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+            e.preventDefault();
+            if (key === "arrowright" || key === "d") moverKirby(1, 0);
+            if (key === "arrowleft" || key === "a") moverKirby(-1, 0);
+            if (key === "arrowdown" || key === "s") moverKirby(0, 1);
+            if (key === "arrowup" || key === "w") moverKirby(0, -1);
+        });
+
+        // === CORAZÓN 3D: CONSTELACIÓN DE AMOR ===
+        let scene3D, camera3D, renderer3D, heartGroup3D, heartParticles;
+        let galaxyFrame = null;
+        let galaxyRunning = false;
+        let galaxyStars = null;
+
+        function initCorazon3D() {
+            const container = document.getElementById("galaxy-container");
+            if (!container || renderer3D || typeof THREE === "undefined") return;
+
+            scene3D = new THREE.Scene();
+            camera3D = new THREE.PerspectiveCamera(48, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera3D.position.set(0, 0,  thirtySafeCamera());
+            renderer3D = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power" });
+            renderer3D.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+            renderer3D.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer3D.domElement);
+
+            heartGroup3D = new THREE.Group();
+            scene3D.add(heartGroup3D);
+
+            // Corazón relleno de pequeñas estrellas: menos partículas para evitar tirones.
+            const count = 1850;
+            const positions = new Float32Array(count * 3);
+            const colors = new Float32Array(count * 3);
+            const pink = new THREE.Color(0xff78b7);
+            const lilac = new THREE.Color(0xbda2ff);
+            const white = new THREE.Color(0xffe8f5);
+
+            for (let i = 0; i < count; i++) {
+                const t = Math.random() * Math.PI * 2;
+                const fill = Math.sqrt(Math.random());
+                const x = 16 * Math.pow(Math.sin(t), 3) * fill;
+                const y = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * fill;
+                const z = (Math.random() - .5) * 7 * (0.35 + fill * .65);
+                positions[i*3] = x * .62;
+                positions[i*3+1] = y * .62;
+                positions[i*3+2] = z;
+
+                const mix = Math.random();
+                const c = pink.clone().lerp(lilac, mix * .72);
+                if (Math.random() > .91) c.lerp(white, .7);
+                colors[i*3] = c.r;
+                colors[i*3+1] = c.g;
+                colors[i*3+2] = c.b;
+            }
+
+            const heartGeometry = new THREE.BufferGeometry();
+            heartGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+            heartGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+            const heartMaterial = new THREE.PointsMaterial({
+                size: .105, vertexColors: true, transparent: true, opacity: .96,
+                blending: THREE.AdditiveBlending, depthWrite: false
+            });
+            heartParticles = new THREE.Points(heartGeometry, heartMaterial);
+            heartGroup3D.add(heartParticles);
+
+            // Aros orbitales suaves alrededor del corazón.
+            const ringMaterial = new THREE.MeshBasicMaterial({
+                color: 0xd8a7ff, transparent: true, opacity: .28, wireframe: true
+            });
+            const ringOne = new THREE.Mesh(new THREE.TorusGeometry(11.4, .018, 4, 110), ringMaterial);
+            ringOne.rotation.x = 1.12;
+            ringOne.rotation.y = .25;
+            heartGroup3D.add(ringOne);
+            const ringTwo = new THREE.Mesh(
+                new THREE.TorusGeometry(12.1, .014, 4, 110),
+                new THREE.MeshBasicMaterial({ color: 0xff9dce, transparent: true, opacity: .22, wireframe: true })
+            );
+            ringTwo.rotation.x = .55;
+            ringTwo.rotation.y = -.65;
+            heartGroup3D.add(ringTwo);
+
+            // Campo de estrellas del fondo.
+            const starCount = 330;
+            const starPositions = new Float32Array(starCount * 3);
+            for (let i = 0; i < starCount; i++) {
+                starPositions[i*3] = (Math.random() - .5) * 42;
+                starPositions[i*3+1] = (Math.random() - .5) * 25;
+                starPositions[i*3+2] = -8 - Math.random() * 20;
+            }
+            const starGeometry = new THREE.BufferGeometry();
+            starGeometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+            galaxyStars = new THREE.Points(starGeometry, new THREE.PointsMaterial({
+                color: 0xffffff, size: .07, transparent: true, opacity: .72
+            }));
+            scene3D.add(galaxyStars);
+
+            window.addEventListener("resize", ajustarTamanoGalaxia);
+        }
+
+        function thirtySafeCamera() { return 30; }
+
+        function ajustarTamanoGalaxia() {
+            if (!renderer3D || !camera3D) return;
+            const container = document.getElementById("galaxy-container");
+            if (!container || !container.clientWidth || !container.clientHeight) return;
+            renderer3D.setSize(container.clientWidth, container.clientHeight);
+            camera3D.aspect = container.clientWidth / container.clientHeight;
+            camera3D.updateProjectionMatrix();
+        }
+
+        function iniciarAnimacionGalaxia() {
+            if (!renderer3D || galaxyRunning) return;
+            galaxyRunning = true;
+            animarCorazon3D();
+        }
+
+        function detenerAnimacionGalaxia() {
+            galaxyRunning = false;
+            if (galaxyFrame !== null) cancelAnimationFrame(galaxyFrame);
+            galaxyFrame = null;
+        }
+
+        function animarCorazon3D() {
+            if (!galaxyRunning || !renderer3D) return;
+            galaxyFrame = requestAnimationFrame(animarCorazon3D);
+            const time = Date.now() * .001;
+            if (heartGroup3D) {
+                heartGroup3D.rotation.y = Math.sin(time * .22) * .16 + time * .12;
+                heartGroup3D.rotation.x = Math.sin(time * .28) * .07;
+                const pulse = 1 + Math.sin(time * 2.1) * .025;
+                heartGroup3D.scale.set(pulse, pulse, pulse);
+            }
+            if (galaxyStars) galaxyStars.rotation.z = time * .006;
+            renderer3D.render(scene3D, camera3D);
+        }
+        // === SORPRESA ÉPICA ===
+        const estrellasDelAmor = [
+            "🌷 Promesa 1: quiero seguir llenándote de florecitas y detalles, aunque sean pequeñitos, porque me encanta verte feliz.",
+            "🎮 Promesa 2: quiero muchísimas más partidas contigo, más risas, más salidas y más recuerdos que después podamos mirar juntos.",
+            "🤍 Promesa 3: quiero seguir eligiéndote, amor. En los días bonitos y también cuando las cosas se pongan difíciles, quiero estar para ti y mejorar por nosotros."
+        ];
+        const estrellasEncontradas = new Set();
+        function encontrarEstrella(indice) {
+            if (estrellasEncontradas.has(indice)) {
+                document.getElementById("quest-feedback").textContent = estrellasDelAmor[indice];
+                return;
+            }
+            estrellasEncontradas.add(indice);
+            const botones = document.querySelectorAll(".quest-star");
+            if (botones[indice]) {
+                botones[indice].classList.add("found");
+                botones[indice].textContent = "💖";
+                botones[indice].setAttribute("aria-pressed", "true");
+            }
+            const total = estrellasEncontradas.size;
+            document.getElementById("quest-progress-fill").style.width = (total / 3 * 100) + "%";
+            document.getElementById("quest-feedback").textContent = estrellasDelAmor[indice];
+            if (typeof confetti === "function") {
+                confetti({ particleCount: 28, spread: 55, startVelocity: 24, origin: { y: 0.68 }, colors: ["#f472b6", "#c084fc", "#fde68a", "#ffffff"] });
+            }
+            if (total === 3) {
+                document.getElementById("quest-final").classList.add("visible");
+                document.getElementById("quest-feedback").textContent = "JAJAJ encontraste todas, te ganaste todo mi amor (aunque ese ya lo tienes). 🌟";
+                crearCorazonesFlotantes();
+                if (typeof confetti === "function") confetti({ particleCount: 120, spread: 100, startVelocity: 36, origin: { y: 0.62 }, colors: ["#f472b6", "#c084fc", "#fde68a", "#ffffff"] });
+            }
+        }
+
+        function huirBoton() {
+            const btn = document.getElementById("btnNoHuye");
+            const x = (Math.random() - 0.5) * 220;
+            const y = (Math.random() - 0.5) * 120;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function lanzarSorpresaTotal() {
+            document.getElementById("cuerpoPrincipal").classList.add("party-mode");
+            document.getElementById("epic-letter-reveal").classList.remove("visible");
+            document.getElementById("sorpresa-modal").style.display = "flex";
+            confetti({ particleCount: 300, spread: 125, startVelocity: 52, origin: { y: 0.58 }, colors: ['#f472b6', '#c084fc', '#38bdf8', '#4ade80', '#ffffff', '#fb7185', '#fde68a'] });
+            setTimeout(() => confetti({ particleCount: 110, spread: 75, startVelocity: 35, origin: { x: 0.5, y: 0.22 }, shapes: ['circle'], colors: ['#ffffff', '#f9a8d4', '#c4b5fd', '#fde68a'] }), 300);
+            crearCorazonesFlotantes();
+            setTimeout(() => confetti({ particleCount: 160, spread: 155, origin: { x: 0.12, y: 0.72 }, colors: ['#f472b6', '#c084fc', '#ffffff', '#fde68a'] }), 500);
+            setTimeout(() => confetti({ particleCount: 160, spread: 155, origin: { x: 0.88, y: 0.72 }, colors: ['#f472b6', '#c084fc', '#ffffff', '#fde68a'] }), 850);
+        }
+
+        function abrirCartaEpica() {
+            const carta = document.getElementById("epic-letter-reveal");
+            carta.classList.add("visible");
+            const tarjeta = document.querySelector(".epic-surprise-card");
+            setTimeout(() => tarjeta.scrollTo({ top: tarjeta.scrollHeight, behavior: "smooth" }), 120);
+            confetti({ particleCount: 75, spread: 75, startVelocity: 28, origin: { x: 0.5, y: 0.62 }, colors: ['#f9a8d4', '#ffffff', '#c4b5fd', '#fde68a'] });
+            crearCorazonesFlotantes();
+            document.querySelector('.secret-hint').textContent = '✧ CARTA DESBLOQUEADA ✧';
+        }
+
+        function crearCorazonesFlotantes() {
+            const emojis = ['💗', '💖', '💕', '♡', '✨', '🌸'];
+            for (let i = 0; i < 22; i++) {
+                const corazon = document.createElement('span');
+                corazon.className = 'floating-heart';
+                corazon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                corazon.style.left = (Math.random() * 96) + 'vw';
+                corazon.style.fontSize = (16 + Math.random() * 24) + 'px';
+                corazon.style.animationDelay = (Math.random() * 1.8) + 's';
+                document.body.appendChild(corazon);
+                setTimeout(() => corazon.remove(), 7000);
+            }
+        }
+
+        function cerrarSorpresa() {
+            document.getElementById("sorpresa-modal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
